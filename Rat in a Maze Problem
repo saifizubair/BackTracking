@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Leetcode {
+
+    static boolean isSafe(int x ,int y , int arr[][],int n , int visited[][]){
+        if ((x>=0&&x<n)&&(y>=0&&y<n)&&(visited[x][y]!=1)&&(arr[x][y]==1)){
+            return true;
+        }
+        else
+            return false;
+    }
+    static void  solve(int x ,int y ,int visited[][],ArrayList<String>ans ,int arr[][],int n ,String path ){
+
+        if (x==n-1&& y==n-1){
+            ans.add(path);
+            return;
+        }
+        // 4 movement D L R U
+
+        // Down
+        if (isSafe(x+1,y,arr,n,visited)){
+            visited[x][y]=1;
+            solve(x+1,y,visited,ans,arr,n,path+'D');
+            visited[x][y]=0;
+        }
+
+        // Left
+        if (isSafe(x,y-1,arr,n,visited)){
+            visited[x][y]=1;
+                solve(x,y-1,visited,ans,arr,n,path+'L');
+            visited[x][y]=0;
+        }
+
+        // Right
+        if (isSafe(x,y+1,arr,n,visited)){
+            visited[x][y]=1;
+            solve(x,y+1,visited,ans,arr,n,path+'R');
+            visited[x][y]=0;
+        }
+
+        // UP
+        if (isSafe(x-1,y,arr,n,visited)){
+            visited[x][y]=1;
+            solve(x-1,y,visited,ans,arr,n,path+'D');
+            visited[x][y]=0;
+        }
+
+
+    }
+    static ArrayList<String>RatMaze_Problem(int arr[][] , int n ){
+        int visited[][]=new int[n][n];
+        ArrayList<String>ans =new ArrayList<>();
+        String path ="";
+        solve(0,0,visited ,ans, arr ,n,path);
+        return  ans;
+    }
+    public static void main(String[] args) {
+        Scanner sc =new Scanner(System.in);
+        int n =sc.nextInt();
+        int arr[][]=new int[n][n];
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
+                arr[i][j]=sc.nextInt();
+            }
+        }
+        ArrayList<String>ans =RatMaze_Problem(arr,n);
+        System.out.println(ans);
+    }
+}
